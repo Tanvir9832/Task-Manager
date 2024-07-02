@@ -39,24 +39,31 @@ const login = async (data) => {
   if (data.password.trim().length === 0)
     throw new ApiError(httpStatus.BAD_REQUEST, "Password is missing");
 
-
   //Find user with the email
   const user = await repository.getOne(
-    User, 
+    User,
     { email: data.email },
     [],
     "+password"
   );
 
   //Check if the user exists
-  if (!user) throw new ApiError(httpStatus.BAD_REQUEST, "Register first");
+  if (!user)
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Invalid credential/email or password"
+    );
 
   //check password
   const isMatch = await user.isPasswordMatched(data.password);
 
   if (!isMatch)
-    throw new ApiError(httpStatus.BAD_REQUEST, "Incorrect Password");
-  
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "invalid credentials/email or password"
+    );
+
+  user.password = "";
   //token generation
   const token = await user.generateToken();
   return { user, token };
