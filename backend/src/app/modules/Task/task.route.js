@@ -1,12 +1,13 @@
 const express = require("express");
 const taskController = require("./task.controller");
-const auth = require("../../middlewares/auth");
+const auth = require("../../middleware/authentication");
 
-const missionRouter = express.Router();
+const taskRouter = express.Router();
 
-missionRouter.route("/create-mission").post(auth.authCheckAdmin ,taskController.createMission);
-missionRouter.route("/update-mission/:id").put(auth.authCheckAdmin, taskController.updateMission);
-missionRouter.route("/delete-mission/:id").delete(auth.authCheckAdmin, taskController.deleteMission);
-missionRouter.route("/get-all-missions").get(auth.authCheckAdmin, taskController.getAllMission);
-missionRouter.route("/get-all-missions/user").get(auth.authCheckUser, taskController.getAllMission);
-module.exports = missionRouter;
+taskRouter.route("/create-task").post(auth.authCheckUser ,taskController.createTask);
+// taskRouter.route("/get-task/:id").post(auth.authCheckUser ,taskController.getTask);
+// taskRouter.route("/update-task/:id").put(auth.authCheckUser, taskController.updateTask);
+// taskRouter.route("/delete-task/:id").delete(auth.authCheckUser, taskController.deleteTask);
+// taskRouter.route("/get-all-tasks").get(auth.authCheckUser, taskController.getAllTask);
+
+module.exports = taskRouter;

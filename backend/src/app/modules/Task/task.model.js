@@ -7,10 +7,12 @@ const TaskSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "Enter title"],
+      trim: true
     },
     description: {
       type: String,
       required: [true, "Enter title"],
+      trim: true
     },
     status: {
       type: ["completed, incomplete"],
@@ -18,7 +20,7 @@ const TaskSchema = new mongoose.Schema(
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: User,
+      ref: "User",
     },
   },
   {

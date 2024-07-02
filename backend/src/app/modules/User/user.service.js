@@ -19,6 +19,9 @@ const registration = async (data) => {
   if (data.password.trim().length === 0)
     throw new ApiError(httpStatus.BAD_REQUEST, "Password is missing");
 
+  //making email lowercase
+  data = { ...data, email: email.toLowerCase() };
+
   // check if user exists
   const user = await repository.getOne(User, { email: data.email });
 
@@ -39,6 +42,9 @@ const login = async (data) => {
 
   if (data.password.trim().length === 0)
     throw new ApiError(httpStatus.BAD_REQUEST, "Password is missing");
+
+  //making email lowercase
+  data = { ...data, email: email.toLowerCase() };
 
   //Find user with the email
   const user = await repository.getOne(
