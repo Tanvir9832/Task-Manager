@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 // const cookieParser = require("cookie-parser");
 // const httpStatus = require("http-status");
-// const globalErrorHandler = require("./app/middlewares/globalErrorHandler");
+const globalErrorHandler = require("./app/middleware/globalErrorHandler");
 const routes = require("./app/routes/index");
 
 // require('dotenv').config()
@@ -36,7 +36,7 @@ routes.applicationRoutes(app);
 //   next();
 // });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 app.get("/",(req,res)=>{
     res.send("Hello");

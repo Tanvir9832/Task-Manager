@@ -7,16 +7,16 @@ const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Enter your name"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Enter your email"],
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Enter your password"],
       select: false,
     },
   },
@@ -32,16 +32,16 @@ const UserSchema = new mongoose.Schema(
 //   return await bcrypt.compare(password, this.password);
 // };
 
-// UserSchema.pre("save", async function (next) {
-//   // hashing user password
-//   if (this.isModified("password")) {
-//     this.password = await bcrypt.hash(
-//       this.password,
-//       Number(config.bycrypt_salt_rounds)
-//     );
-//   }
-//   next();
-// });
+UserSchema.pre("save", async function (next) {
+  // hashing user password
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(
+      this.password,
+      Number(config.bycrypt_salt_rounds)
+    );
+  }
+  next();
+});
 
 // UserSchema.methods.generateToken = function () {
 //   return jwt.sign({ id: this._id }, config.jwt.secret, {
