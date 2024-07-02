@@ -6,44 +6,48 @@ const Task = require("./task.model");
 const createTask = async (data, id) => {
   try {
     if (data.title.trim().length === 0)
-      throw new ApiError(httpStatus.BAD_REQUEST,"Title is missing");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Title is missing");
 
     if (data.description.trim().length === 0)
-      throw new ApiError(httpStatus.BAD_REQUEST,"Description is missing");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Description is missing");
 
     const result = await repository.create(Task, { ...data, owner: id });
     return result;
   } catch (error) {
     throw new ApiError(
-        httpStatus.INTERNAL_SERVER_ERROR, error.message || "Internal Server Error"
-      );
+      httpStatus.INTERNAL_SERVER_ERROR,
+      error.message || "Internal Server Error"
+    );
   }
 };
 
-const getAllTask = async (page, title) => {
+const getAllTask = async (page, title, userId) => {
   try {
-    const result = await repository.getAll(
+    const data = await repository.getAll(
       Task,
-      { title: { $regex: title.trim(), $options: "i" } },
+      { title: { $regex: title.trim(), $options: "i" }, owner: userId },
       [],
       "",
       page,
       { createdAt: -1 }
     );
-
     const total = await Task.countDocuments();
-    return { result, total };
+    return { ...data, total };
   } catch (error) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
-      error.message | "Internal Server Error"
+      error.message || "Internal Server Error"
     );
   }
 };
 
-const updateTask = async (data, id) => {
+const updateTask = async (data, taskId, userId) => {
   try {
-    const Task = await repository.getOneById(Task, id);
+    const task = await repository.getOneById(Task, taskId);
+
+    if (task.owner.toString() !== userId.toString())
+      throw new ApiError(httpStatus.BAD_REQUEST, "Invalid post");
+
     const updates = {
       title: data.title,
       description: data.description,
@@ -55,8 +59,8 @@ const updateTask = async (data, id) => {
       }
     }
 
-    Object.assign(Task, updates);
-    await Task.save();
+    Object.assign(task, updates);
+    await task.save();
   } catch (error) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
@@ -65,40 +69,53 @@ const updateTask = async (data, id) => {
   }
 };
 
-const deleteTask = async (id) => {
+const deleteTask = async (taskId, userId) => {
   try {
-    const data = await Task.findByIdAndDelete(id);
-    return true;
+    const task = await repository.getOneById(Task, taskId);
+
+    if (task.owner.toString() !== userId.toString())
+      throw new ApiError(httpStatus.BAD_REQUEST, "Invalid post");
+
+    const data = await Task.findByIdAndDelete(taskId);
+    if (data) return true;
+    return false;
   } catch (error) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
-      error.message | "Internal Server Error"
+      error.message || "Internal Server Error"
     );
   }
 };
 
-const getTask = async (id) => {
+const getTask = async (taskId, userId) => {
   try {
-    const data = await Task.getOneById(id);
-    if (!data)
-      throw new ApiError(httpStatus.BAD_REQUEST, error.message | "false post");
-    return data;
+    const task = await repository.getOneById(Task, taskId);
+
+    if (!task) throw new ApiError(httpStatus.BAD_REQUEST, "Invalid post");
+
+    if (task.owner.toString() !== userId.toString())
+      throw new ApiError(httpStatus.BAD_REQUEST, "Invalid post");
+    return task;
   } catch (error) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
-      error.message | "Internal Server Error"
+      error.message || "Internal Server Error"
     );
   }
 };
 
-const updateStatus = async (id) => {
+const updateStatus = async (taskId, userId) => {
   try {
-    const data = await Task.getOneById(id);
-    if (!data)
-      throw new ApiError(httpStatus.BAD_REQUEST, error.message | "false post");
-    if (data.status === "incomplete") data.status = "completed";
-    else data.status = "incomplete";
-    await data.save();
+    const task = await repository.getOneById(Task,taskId)
+    if (!task)
+      throw new ApiError(httpStatus.BAD_REQUEST, error.message | "invalid post");
+
+    if(task.owner.toString()!==userId.toString())
+        throw new ApiError(httpStatus.BAD_REQUEST, error.message | "invalid post");
+
+    task.status = !task.status;
+    await task.save();
+    return task.status;
   } catch (error) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,

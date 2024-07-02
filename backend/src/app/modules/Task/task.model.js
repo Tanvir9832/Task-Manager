@@ -15,8 +15,8 @@ const TaskSchema = new mongoose.Schema(
       trim: true
     },
     status: {
-      type: ["completed, incomplete"],
-      default: "incomplete",
+      type: Boolean,
+      default: false,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
