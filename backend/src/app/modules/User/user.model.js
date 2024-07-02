@@ -28,9 +28,9 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-// UserSchema.methods.isPasswordMatched = async function (password) {
-//   return await bcrypt.compare(password, this.password);
-// };
+UserSchema.methods.isPasswordMatched = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 UserSchema.pre("save", async function (next) {
   // hashing user password
@@ -43,10 +43,10 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-// UserSchema.methods.generateToken = function () {
-//   return jwt.sign({ id: this._id }, config.jwt.secret, {
-//     expiresIn: config.jwt.expires_in,
-//   });
-// };
+UserSchema.methods.generateToken = function () {
+  return jwt.sign({ id: this._id }, config.jwt.secret, {
+    expiresIn: config.jwt.expires_in,
+  });
+};
 
 module.exports = mongoose.model("User", UserSchema);

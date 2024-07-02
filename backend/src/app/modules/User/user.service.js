@@ -6,17 +6,17 @@ const repository = require("../../repository/repository");
 const { validateEmail } = require("../../../shared/validation");
 
 //! registration
-
 const registration = async (data) => {
   // validation
-  if (!data.name) throw new ApiError(httpStatus.BAD_REQUEST, "Name is missing");
+  if (data.name.trim().length === 0)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Name is missing");
 
-  if (!data.email)
+  if (data.email.trim().length === 0)
     throw new ApiError(httpStatus.BAD_REQUEST, "Email is missing");
   else if (!validateEmail(data.email))
     throw new ApiError(httpStatus.BAD_REQUEST, "Invalid email");
 
-  if (!data.password)
+  if (data.password.trim().length === 0)
     throw new ApiError(httpStatus.BAD_REQUEST, "Password is missing");
 
   // check if user exists
@@ -31,6 +31,38 @@ const registration = async (data) => {
   return createdUser;
 };
 
+const login = async (data) => {
+  //validation
+  if (data.email.trim().length === 0)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Email is missing");
+
+  if (data.password.trim().length === 0)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Password is missing");
+
+
+  //Find user with the email
+  const user = await repository.getOne(
+    User, 
+    { email: data.email },
+    [],
+    "+password"
+  );
+
+  //Check if the user exists
+  if (!user) throw new ApiError(httpStatus.BAD_REQUEST, "Register first");
+
+  //check password
+  const isMatch = await user.isPasswordMatched(data.password);
+
+  if (!isMatch)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Incorrect Password");
+  
+  //token generation
+  const token = await user.generateToken();
+  return { user, token };
+};
+
 module.exports = {
   registration,
+  login,
 };
