@@ -1,32 +1,32 @@
-// const jwt = require("jsonwebtoken");
-// const mongoose = require("mongoose");
-// const config = require("../../../config");
-// const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const config = require("../../../config");
+const bcrypt = require("bcryptjs");
 
-// const UserSchema = new mongoose.Schema(
-//   {
-//     name: {
-//       type: String,
-//       required: true,
-//     },
-//     email: {
-//       type: String,
-//       required: true,
-//       unique: true,
-//     },
-//     password: {
-//       type: String,
-//       required: true,
-//       select: false,
-//     },
-//   },
-//   {
-//     timestamps: true,
-//     toJSON: {
-//       virtuals: true,
-//     },
-//   }
-// );
+const UserSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 // UserSchema.methods.isPasswordMatched = async function (password) {
 //   return await bcrypt.compare(password, this.password);
@@ -49,4 +49,4 @@
 //   });
 // };
 
-// module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

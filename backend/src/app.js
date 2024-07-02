@@ -3,7 +3,7 @@ const cors = require("cors");
 // const cookieParser = require("cookie-parser");
 // const httpStatus = require("http-status");
 // const globalErrorHandler = require("./app/middlewares/globalErrorHandler");
-// const routes = require("./app/routes/index");
+const routes = require("./app/routes/index");
 
 // require('dotenv').config()
 
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// routes.applicationRoutes(app);
+routes.applicationRoutes(app);
 
 
 // //handle not found
