@@ -31,6 +31,7 @@ const registration = async (data) => {
   return createdUser;
 };
 
+//! login
 const login = async (data) => {
   //validation
   if (data.email.trim().length === 0)
