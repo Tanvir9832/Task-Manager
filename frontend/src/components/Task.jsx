@@ -23,7 +23,7 @@ const Task = ({ task }) => {
         <div className="bg-white m-2 p-6 shadow-lg flex flex-col max-w-full sm:max-w-md overflow-hidden">
             <Link to={`/task/${task?._id}`} className="text-xl mb-2 truncate">{task?.title}</Link>
             <p className="opacity-75 text-gray-500 text-sm mb-2 truncate">Assigned on {newDate}</p>
-            <p className="mb-4 overflow-hidden text-ellipsis whitespace-normal">{task?.description}</p>
+            <Link to={`/task/${task?._id}`} className="mb-4 overflow-hidden text-ellipsis whitespace-normal">{task?.description} </Link>
             <div className="flex justify-between items-center mt-auto">
                 <p className="text-purple-700">Task is {isCompleted === undefined ? task?.status ? 'completed' : 'incomplete' : isCompleted ? 'completed' : 'incomplete'}</p>
                 <div className="flex flex-col items-center">
