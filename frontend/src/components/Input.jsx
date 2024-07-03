@@ -1,9 +1,36 @@
-const Input = ({ disabled = false, className, ...props }) => (
-    <input
-        disabled={disabled}
-        className={`mt-1 px-3 py-2 ${className} bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-black focus:ring-black block w-full rounded-md sm:text-sm focus:ring-1`}
-        {...props}
-    />
-)
 
-export default Input;
+const Input = ({
+    className,
+    name,
+    label,
+    errors,
+    hidden,
+    ...rest
+  }) => {
+    const errorMessage = name ? errors?.[name]?.[0] : null;
+  return (
+    <div className="w-full">
+    {label && (
+      <label
+        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >
+        {label}
+      </label>
+    )}
+
+    <input
+      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      name={name}
+      {...rest}
+    />
+
+    {errorMessage ? (
+      <span className="text-red-500 text-sm">{errorMessage}</span>
+    ) : (
+      <span className="text-red-500 text-sm"> {"‎"}</span>
+    )}
+  </div>
+  )
+}
+
+export default Input
