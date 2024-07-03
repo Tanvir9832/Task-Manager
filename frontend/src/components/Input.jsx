@@ -3,11 +3,10 @@ const Input = ({
     className,
     name,
     label,
-    errors,
+    errorMessage,
     hidden,
     ...rest
   }) => {
-    const errorMessage = name ? errors?.[name]?.[0] : null;
   return (
     <div className="w-full">
     {label && (

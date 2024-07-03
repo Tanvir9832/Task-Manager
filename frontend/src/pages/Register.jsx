@@ -1,22 +1,53 @@
 import { useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { register } from "../actions/usersAction";
+import validation from "../utils/validation";
 
 
 const Register = () => {
 
     const [user, setUser] = useState({ name: "", email: "", password: "" });
+    const [errorMessage,setErrorMessage] = useState({});
     const [loading, setLoading] = useState(false);
     
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        if(validation.isEmpty(user.name)){
+          setErrorMessage(() => ({ name: "Name is missing" }));
+          return;
+        }
+        if(validation.isEmpty(user.email)){
+          setErrorMessage(() => ({ email: "Email is missing" }));
+          return;
+        }
+
+        if(validation.isEmpty(user.password)){
+          setErrorMessage(() => ({ password: "Password is missing" }));
+          return;
+        }
+
+        if(!validation.isValidEmail(user.email)){
+          setErrorMessage(() => ({ email: "Enter a valid email" }));
+          return;
+        }
+
         setLoading(true);
-        console.log(user);
+        const res = await dispatch(register(user));
+        if(!res?.success){
+          setErrorMessage(() => ({ email: res?.message }));
+        }else{
+          navigate('/login')
+        }
         setLoading(false);
     }
   return (
@@ -31,24 +62,25 @@ const Register = () => {
         type="text"
         name="name"
         onChange={handleChange}
+        errorMessage={errorMessage["name"]}
       />
       <Input
         placeholder="Email"
-        type="email"
+        type="text"
         name="email"
         onChange={handleChange}
-        required
+        errorMessage={errorMessage["email"]}
       />
       <Input
         placeholder="Password"
         name="password"
         type="password"
         onChange={handleChange}
-        required
+        errorMessage={errorMessage["password"]}
       />
       <p>Aleady have an account ? <Link to="/login">Login</Link></p>
       <Button loading={loading} type="submit" className="w-full">
-        Login
+        Register
       </Button>
     </form>
   </div>
