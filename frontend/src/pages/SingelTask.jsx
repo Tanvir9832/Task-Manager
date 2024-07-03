@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FaRegStar, FaStar } from "react-icons/fa6";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTask, getSingleTask, updateTaskStatus } from '../actions/tasksAction';
@@ -51,7 +51,7 @@ const SingleTask = () => {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
             <div className="bg-white shadow-sm rounded-lg p-6 w-full max-w-2xl">
-                <Link to="/" className="text-xl mb-2 block truncate text-center text-black">{task?.task?.data?.title}</Link>
+                <div className="text-xl mb-2 block truncate text-center text-black">{task?.task?.data?.title}</div>
                 <p className="text-gray-500 text-sm mb-2 text-center">Assigned on {newDate}</p>
                 <p className="mb-4 text-center">{task?.task?.data?.description}</p>
                 <div className="flex justify-between items-center mt-4">
