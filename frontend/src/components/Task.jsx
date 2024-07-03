@@ -7,8 +7,10 @@ import { updateTaskStatus } from '../actions/tasksAction';
 
 const Task = ({ task }) => {
     const [isCompleted, setIsCompleted] = useState(task?.status);
-    const date = new Date(task?.createdAt)
-    const newDate = date.toLocaleString('en-GB', {day:'numeric', month: 'long', year:'numeric'})
+
+    const date = new Date(task?.createdAt);
+    const newDate = date.toLocaleString('en-GB', {day:'numeric', month: 'long', year:'numeric'});
+    
     const dispatch = useDispatch();
     const handleStatusChange=async()=>{
         const res = await dispatch(updateTaskStatus(task?._id));

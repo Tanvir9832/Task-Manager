@@ -33,10 +33,10 @@ export const addTask = (data) => async (dispatch) => {
   }
 };
 
-export const getSingleTask = () => async (dispatch) => {
+export const getSingleTask = (id) => async (dispatch) => {
   dispatch({ type: constants.GET_SINGLE_TASK_REQUEST });
   try {
-    const res = await axiosInstance.get(``, authorization);
+    const res = await axiosInstance.get(`/task/get-task/${id}`, authorization);
     console.log(res);
     dispatch({ type: constants.GET_SINGLE_TASK_SUCCESS, payload: res.data });
   } catch (error) {
@@ -48,15 +48,18 @@ export const getSingleTask = () => async (dispatch) => {
   }
 };
 
-export const deleteTask = () => async (dispatch) => {
+export const deleteTask = (id) => async (dispatch) => {
   dispatch({ type: constants.DELETE_TASKS_REQUEST });
   try {
-    const res = await axiosInstance.get(``, authorization);
-    console.log(res);
+    const res = await axiosInstance.delete(
+      `/task/delete-task/${id}`,
+      authorization
+    );
     dispatch({ type: constants.DELETE_TASKS_SUCCESS, payload: res.data });
+    return true;
   } catch (error) {
-    console.log(error);
     dispatch({ type: constants.DELETE_TASKS_FAILED, payload: error.message });
+    return false;
   }
 };
 
@@ -75,7 +78,11 @@ export const updateTask = (data) => async (dispatch) => {
 export const updateTaskStatus = (id) => async (dispatch) => {
   dispatch({ type: constants.UPDATE_TASKS_STATUS_REQUEST });
   try {
-    const res = await axiosInstance.put(`/task/update-status/${id}`, {}, authorization);
+    const res = await axiosInstance.put(
+      `/task/update-status/${id}`,
+      {},
+      authorization
+    );
     dispatch({
       type: constants.UPDATE_TASKS_STATUS_SUCCESS,
       payload: res.data,

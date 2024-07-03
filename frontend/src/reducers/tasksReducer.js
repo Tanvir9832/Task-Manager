@@ -49,9 +49,9 @@ export const singleTaskReducer = (state = singleTaskInitialState, action) => {
     case constants.UPDATE_TASKS_STATUS_REQUEST:
       return { ...state, isLoading: true };
     case constants.UPDATE_TASKS_STATUS_SUCCESS:
-      return { ...state, task: action.payload, error: null };
+      return { ...state, error: null };
     case constants.UPDATE_TASKS_STATUS_FAILED:
-      return { ...state, tasks: [], error: action.payload };
+      return { ...state, error: action.payload };
 
     case constants.ADD_TASKS_REQUEST:
       return { ...state, isLoading: true };
