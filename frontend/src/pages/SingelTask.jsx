@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteTask, getSingleTask, updateTaskStatus } from '../actions/tasksAction';
 import { toast } from 'sonner';
 import {style} from '../style/style'
+import Form from '../components/Form';
 
 const SingleTask = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(()=>{
         (async function(){
@@ -18,7 +20,6 @@ const SingleTask = () => {
     const task = useSelector((state)=>state.task);
 
     const [isCompleted, setIsCompleted] = useState(task?.task?.data?.status);
-    console.log(task?.task?.data?.status)
     const date = new Date(task?.task?.data?.createdAt);
     const newDate = date.toLocaleString('en-GB', {day:'numeric', month: 'long', year:'numeric'});
 
@@ -33,10 +34,6 @@ const SingleTask = () => {
                 return prev === undefined ? !task?.task?.data?.status : !prev 
             });
         }
-    }
-
-    const handleUpdate =()=>{
-
     }
 
     const handleDelete =async()=>{
@@ -61,10 +58,14 @@ const SingleTask = () => {
                     </Button>
                 </div>
                 <div className="flex justify-between mt-6">
-                    <Button onClick={handleUpdate} className="text-white w-1/2 mr-2">Update</Button>
+                    <Button onClick={()=>setIsModalOpen(true)} className="text-white w-1/2 mr-2">Update</Button>
                     <Button onClick={handleDelete} className="text-white w-1/2 ml-2">Delete</Button>
                 </div>
+                {
+            isModalOpen && <Form onClose={()=>setIsModalOpen(false)} title={task?.task?.data?.title} description={task?.task?.data?.description} id={task?.task?.data?._id} />
+        }
             </div>
+
         </div>
     );
 };

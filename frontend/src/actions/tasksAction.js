@@ -63,15 +63,19 @@ export const deleteTask = (id) => async (dispatch) => {
   }
 };
 
-export const updateTask = (data) => async (dispatch) => {
+export const updateTask = (data, id) => async (dispatch) => {
   dispatch({ type: constants.UPDATE_TASKS_REQUEST });
   try {
-    const res = await axiosInstance.post(``, data, authorization);
-    console.log(res);
+    const res = await axiosInstance.put(
+      `/task/update-task/${id}`,
+      data,
+      authorization
+    );
     dispatch({ type: constants.UPDATE_TASKS_SUCCESS, payload: res.data });
+    return true;
   } catch (error) {
-    console.log(error);
     dispatch({ type: constants.UPDATE_TASKS_FAILED, payload: error.message });
+    return false;
   }
 };
 
