@@ -3,7 +3,7 @@ import { Spinner } from "./Spninner"
 const Button = ({ type = 'submit', className, loading, ...props }) => (
     <button
         type={type}
-        className={`${className} flex
+        className={`flex
             justify-center
             items-center
             gap-2
@@ -18,7 +18,7 @@ const Button = ({ type = 'submit', className, loading, ...props }) => (
             text-sm
             px-5
             py-2.5
-            mb-2 disabled:cursor-not-allowed`}
+            mb-2 disabled:cursor-not-allowed ${className} `}
         {...props}
     >{loading? <Spinner /> : props.children}</button>
 )
