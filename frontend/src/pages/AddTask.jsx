@@ -21,7 +21,7 @@ const AddTask = () => {
       setLoading(false);
     }
   return (
-    <div className="flex flex-col h-screen w-screen justify-center items-center bg-gray-100 p-4">
+    <div className="flex flex-col h-[90vh] justify-center items-center bg-gray-100 p-4">
     <form
       onSubmit={handleSubmit}
       className="flex flex-col justify-center items-center gap-2 bg-white p-8 rounded-lg shadow-lg w-full max-w-md"

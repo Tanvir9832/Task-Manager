@@ -6,6 +6,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import Home from "../pages/Home";
 import AddTask from "../pages/AddTask";
 import Navbar from "../components/Navbar";
+import SingleTask from "../pages/SingelTask";
 
 function Layout() {
     return (
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         {
             path: "/add-task",
             element: <AddTask />
+        },
+        {
+            path: "/task/:id",
+            element: <SingleTask />
         }
       ],
     },

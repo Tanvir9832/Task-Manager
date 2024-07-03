@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 const Task = ({ task }) => {
     const [isParticipated, setIsParticipated] = useState(false);
     return (
-        <div className="bg-white m-2 p-4 shadow-lg flex flex-col max-w-full sm:max-w-md overflow-hidden">
-            <Link to="/" className="text-xl mb-2 truncate">{task?.title}</Link>
+        <div className="bg-white m-2 p-6 shadow-lg flex flex-col max-w-full sm:max-w-md overflow-hidden">
+            <Link to="/task/124" className="text-xl mb-2 truncate">{task?.title}</Link>
             <p className="opacity-75 text-gray-500 text-sm mb-2 truncate">Assigned on {task?.date}</p>
             <p className="mb-4 overflow-hidden text-ellipsis whitespace-normal">{task?.description}</p>
             <div className="flex justify-between items-center mt-auto">
