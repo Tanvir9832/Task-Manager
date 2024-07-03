@@ -18,7 +18,7 @@ const SingleTask = () => {
     const task = useSelector((state)=>state.task);
 
     const [isCompleted, setIsCompleted] = useState(task?.task?.data?.status);
-
+    console.log(task?.task?.data?.status)
     const date = new Date(task?.task?.data?.createdAt);
     const newDate = date.toLocaleString('en-GB', {day:'numeric', month: 'long', year:'numeric'});
 
@@ -29,7 +29,9 @@ const SingleTask = () => {
     const handleStatusChange=async()=>{
         const res = await dispatch(updateTaskStatus(id));
         if(res){
-            setIsCompleted(prev => !prev);
+            setIsCompleted(prev => {
+                return prev === undefined ? !task?.task?.data?.status : !prev 
+            });
         }
     }
 
@@ -53,9 +55,9 @@ const SingleTask = () => {
                 <p className="text-gray-500 text-sm mb-2 text-center">Assigned on {newDate}</p>
                 <p className="mb-4 text-center">{task?.task?.data?.description}</p>
                 <div className="flex justify-between items-center mt-4">
-                    <p className="text-purple-700">Task is {isCompleted ? 'completed' : 'incomplete'}</p>
+                    <p className="text-purple-700">Task is {isCompleted === undefined ? task?.task?.data?.status ? 'completed' : 'incomplete' : isCompleted ? 'completed' : 'incomplete'}</p>
                     <Button onClick={handleStatusChange} className="text-purple-700 bg-black">
-                        {isCompleted ? <FaStar /> : <FaRegStar />}
+                        {isCompleted === undefined ? task?.task?.data?.status ? <FaStar /> : <FaRegStar />  : isCompleted ? <FaStar /> : <FaRegStar /> }
                     </Button>
                 </div>
                 <div className="flex justify-between mt-6">
