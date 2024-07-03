@@ -4,11 +4,13 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NotFoundPage from "../pages/NotFoundPage";
 import Home from "../pages/Home";
+import AddTask from "../pages/AddTask";
+import Navbar from "../components/Navbar";
 
 function Layout() {
     return (
       <>
-        {/* <Navbar /> */}
+        <Navbar />
         <Outlet />
       </>
     );
@@ -22,6 +24,10 @@ const router = createBrowserRouter([
         {
           path: "/",
           element: <Home />
+        },
+        {
+            path: "/add-task",
+            element: <AddTask />
         }
       ],
     },
