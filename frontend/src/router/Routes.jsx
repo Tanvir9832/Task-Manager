@@ -29,11 +29,11 @@ const router = createBrowserRouter([
         },
         {
             path: "/add-task",
-            element: <AddTask />
+            element: <Protected element={<AddTask />} />
         },
         {
             path: "/task/:id",
-            element: <SingleTask />
+            element: <Protected element={<SingleTask />} />
         }
       ],
     },

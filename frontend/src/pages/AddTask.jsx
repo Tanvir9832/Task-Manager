@@ -1,23 +1,48 @@
-
-
+import { useDispatch } from "react-redux";
+import {toast} from 'sonner'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import validation from '../utils/validation';
+import { addTask } from "../actions/tasksAction";
+import { style } from "../style/style";
+
 
 
 const AddTask = () => {
     const [task, setTask] = useState({ title: "", description: "" });
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState({});
   
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
       setTask((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
       e.preventDefault();
+      if(validation.isEmpty(task.title)){
+        setErrorMessage(() => ({ title: "Add a title" }));
+        return;
+      }
+
+      if(validation.isEmpty(task.description)){
+        setErrorMessage(() => ({ description: "Add a description" }));
+        return;
+      }
+
       setLoading(true);
-      console.log(task);
+      const res = await dispatch(addTask(task));
+      if(res?.success){
+        toast.success(res?.message,style);
+        navigate('/');
+      }else{
+        toast.error(res?.message,style);
+      }
+
       setLoading(false);
     }
   return (
@@ -32,14 +57,14 @@ const AddTask = () => {
         type="text"
         name="title"
         onChange={handleChange}
-        required
+        errorMessage={errorMessage['title']}
       />
       <Input
         placeholder="Description"
         name="description"
         type="text"
         onChange={handleChange}
-        required
+        errorMessage={errorMessage['description']}
       />
       <Button loading={loading} type="submit" className="w-full">
         submit
