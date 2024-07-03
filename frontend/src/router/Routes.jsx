@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import AddTask from "../pages/AddTask";
 import Navbar from "../components/Navbar";
 import SingleTask from "../pages/SingelTask";
+import Protected from "../auth/Protected";
 
 function Layout() {
     return (
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
       children: [
         {
           path: "/",
-          element: <Home />
+          element: <Protected element={<Home />} />
         },
         {
             path: "/add-task",
