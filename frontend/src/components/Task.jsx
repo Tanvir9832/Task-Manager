@@ -25,10 +25,10 @@ const Task = ({ task }) => {
             <p className="opacity-75 text-gray-500 text-sm mb-2 truncate">Assigned on {newDate}</p>
             <p className="mb-4 overflow-hidden text-ellipsis whitespace-normal">{task?.description}</p>
             <div className="flex justify-between items-center mt-auto">
-                <p className="text-purple-700">Task is {isCompleted ? 'completed' : 'incomplete'}</p>
+                <p className="text-purple-700">Task is {isCompleted === undefined ? task?.status ? 'completed' : 'incomplete' : isCompleted ? 'completed' : 'incomplete'}</p>
                 <div className="flex flex-col items-center">
                     <Button onClick={handleStatusChange} className="text-purple-700 bg-black">
-                        {isCompleted ? <FaStar /> : <FaRegStar />}
+                        {isCompleted === undefined ? task?.status ? <FaStar /> : <FaRegStar />  : isCompleted ? <FaStar /> : <FaRegStar /> }
                     </Button>
                 </div>
             </div>
