@@ -1,18 +1,16 @@
-import { createStore, applyMiddleware, combineReducers, compose } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import {thunk} from 'redux-thunk';
 
 import { usersReducer } from "./reducers/usersReducer";
+import { tasksReducer,singleTaskReducer } from "./reducers/tasksReducer";
 
 const rootReducer = combineReducers({
   users: usersReducer,
+  tasks : tasksReducer,
+  task : singleTaskReducer
 });
 
 const middlewareEnhancer = applyMiddleware(thunk);
-
-// const composeWithDevTools =
-//   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-// const composedEnhancers = composeWithDevTools(middlewareEnhancer);
 
 const store = createStore(rootReducer, middlewareEnhancer);
 

@@ -33,7 +33,6 @@ export const login = (data) => async (dispatch) => {
     try {
       const res = await axiosInstance.get(`/user/checkauth`,authorization);   
       dispatch({ type: constants.CHECK_USER_SUCCESS, payload: res?.data });
-      console.log(res?.data);
       return res?.data;
     } catch (error) {
       dispatch({ type: constants.CHECK_USER_FAILED, payload: error.message });

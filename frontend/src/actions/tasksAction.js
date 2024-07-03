@@ -2,12 +2,15 @@ import constants from "../constants/tasksConstants";
 import axiosInstance from "../service/axiosInstance";
 import { authorization } from "../utils/header";
 
-export const getAllTasks = () => async (dispatch) => {
+export const getAllTasks = (page, search) => async (dispatch) => {
   dispatch({ type: constants.GET_TASKS_REQUEST });
   try {
-    const res = await axiosInstance.get(``, authorization);
-    console.log(res);
-    dispatch({ type: constants.GET_TASKS_SUCCESS, payload: res.data });
+    const res = await axiosInstance.get(
+      `/task/get-all-tasks/?title=${search.trim()}&page=${page}`,
+      authorization
+    );
+    dispatch({ type: constants.GET_TASKS_SUCCESS, payload: res.data.data });
+    return res.data;
   } catch (error) {
     console.log(error);
     dispatch({ type: constants.GET_TASKS_SUCCESS, payload: error.message });
@@ -17,9 +20,13 @@ export const getAllTasks = () => async (dispatch) => {
 export const addTask = (data) => async (dispatch) => {
   dispatch({ type: constants.ADD_TASKS_REQUEST });
   try {
-    const res = await axiosInstance.post(`/task/create-task`, data, authorization);
+    const res = await axiosInstance.post(
+      `/task/create-task`,
+      data,
+      authorization
+    );
     dispatch({ type: constants.ADD_TASKS_SUCCESS, payload: res?.data });
-    return res?.data
+    return res?.data;
   } catch (error) {
     console.log(error);
     dispatch({ type: constants.ADD_TASKS_FAILED, payload: error?.message });
@@ -65,20 +72,20 @@ export const updateTask = (data) => async (dispatch) => {
   }
 };
 
-export const updateTaskStatus = () => async (dispatch) => {
+export const updateTaskStatus = (id) => async (dispatch) => {
   dispatch({ type: constants.UPDATE_TASKS_STATUS_REQUEST });
   try {
-    const res = await axiosInstance.put(``, {}, authorization);
-    console.log(res);
+    const res = await axiosInstance.put(`/task/update-status/${id}`, {}, authorization);
     dispatch({
       type: constants.UPDATE_TASKS_STATUS_SUCCESS,
       payload: res.data,
     });
+    return true;
   } catch (error) {
-    console.log(error);
     dispatch({
       type: constants.UPDATE_TASKS_STATUS_FAILED,
       payload: error.message,
     });
+    return false;
   }
 };
