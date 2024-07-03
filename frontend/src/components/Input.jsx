@@ -26,7 +26,7 @@ const Input = ({
     {errorMessage ? (
       <span className="text-red-500 text-sm">{errorMessage}</span>
     ) : (
-      <span className="text-red-500 text-sm"> {"‎"}</span>
+      <span className="text-red-500 text-sm"> {" "}</span>
     )}
   </div>
   )

@@ -36,7 +36,6 @@ export const login = (data) => async (dispatch) => {
       return res?.data;
     } catch (error) {
       dispatch({ type: constants.CHECK_USER_FAILED, payload: error.message });
-      console.log(error)
       return error?.response?.data;
     }
   };

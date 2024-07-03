@@ -12,7 +12,6 @@ export const getAllTasks = (page, search) => async (dispatch) => {
     dispatch({ type: constants.GET_TASKS_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (error) {
-    console.log(error);
     dispatch({ type: constants.GET_TASKS_SUCCESS, payload: error.message });
   }
 };
@@ -28,7 +27,6 @@ export const addTask = (data) => async (dispatch) => {
     dispatch({ type: constants.ADD_TASKS_SUCCESS, payload: res?.data });
     return res?.data;
   } catch (error) {
-    console.log(error);
     dispatch({ type: constants.ADD_TASKS_FAILED, payload: error?.message });
   }
 };
@@ -37,10 +35,8 @@ export const getSingleTask = (id) => async (dispatch) => {
   dispatch({ type: constants.GET_SINGLE_TASK_REQUEST });
   try {
     const res = await axiosInstance.get(`/task/get-task/${id}`, authorization);
-    console.log(res);
     dispatch({ type: constants.GET_SINGLE_TASK_SUCCESS, payload: res.data });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: constants.GET_SINGLE_TASK_FAILED,
       payload: error.message,

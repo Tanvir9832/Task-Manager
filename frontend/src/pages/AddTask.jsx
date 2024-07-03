@@ -3,7 +3,7 @@ import {toast} from 'sonner'
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import validation from '../utils/validation';
 import { addTask } from "../actions/tasksAction";
 import { style } from "../style/style";
