@@ -31,8 +31,7 @@ const getAllTask = async (page, title, userId) => {
       page,
       { createdAt: -1 }
     );
-    const total = await Task.countDocuments();
-    return { ...data, total };
+    return data;
   } catch (error) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
