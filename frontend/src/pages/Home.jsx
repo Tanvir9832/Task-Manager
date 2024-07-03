@@ -24,9 +24,9 @@ const Home = () => {
           <input onChange={(e)=>setSearch(e.target.value)} className="w-[30%] px-3 py-2" autoFocus placeholder="Search with title..." />
           <Button className="mt-1">search</Button>
         </div>
-            <div className="flex flex-wrap items-center justify-center m-2">
+            <div className="flex flex-wrap justify-center content-center m-2">
                 {task?.tasks?.map((task, index) => (
-                    <div key={index} className="w-full sm:w-1/2 lg:w-1/3 p-2">
+                    <div key={index} className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
                         <Task task={task} />
                     </div>
                 ))}
